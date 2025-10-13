@@ -53,6 +53,7 @@ class CartPole:
         gravity = attributes[3]
         damping_cart = attributes[4]
         damping_pole = attributes[5]
+        
         # equations can be found at https://coneural.org/florian/papers/05_cart_pole.pdf
         total_mass = cart_mass + pole_mass
         theta_ddot = gravity * np.sin(theta) + np.cos(theta) * ((-force - pole_mass * pole_length * theta_dot ** 2 * np.sin(theta)) / total_mass) / \
