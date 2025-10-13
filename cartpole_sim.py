@@ -1,6 +1,8 @@
 import pygame
 import numpy as np
 from cartpole_env import CartPole
+from ppo_train import ActorCritic
+import torch
 
 pygame.init()
 window_width, window_height = 600, 400
@@ -9,6 +11,14 @@ clock = pygame.time.Clock()
 
 env = CartPole()
 state = env.reset()
+
+state_dim = 4
+action_dim = 1
+
+policy = ActorCritic(state_dim, action_dim)
+policy.load_state_dict(torch.load("ppo_cartpole.pth"))
+policy.eval()  # evaluation mode
+
 
 scale = 600 / (3.0 * 2) # for converting pixels to meters (600 pixels to 6 meters)
 
@@ -41,24 +51,49 @@ while running:
         elif event.type == pygame.MOUSEBUTTONUP:
             dragging = False
 
+
     if dragging:
         mouse_x, mouse_y = pygame.mouse.get_pos()
         desired_x = (mouse_x - window_width/2) / scale
 
-        # Using PD Controller to convert mouse movement to force
-        # Info on PD Controller can be found at https://www.matthewpeterkelly.com/tutorials/pdControl/index.html
         kp = (np.pi * 2 * 3.0) ** 2
         kd = 2 * 1 * (np.pi * 3.0)
-
-        force = kp * (desired_x - state[0]) - kd * state[1] # consider adding a max force in future
-        env.step(force)
-        state = env.state
+        pd_force = kp * (desired_x - state[0]) - kd * state[1]  # PD controller
+        force = pd_force
     else:
-        # Later: replace with RL action
-        pass
+        theta_threshold = 15 * np.pi / 180  # switch to PPO only when pole is within ±15 degrees
+        if abs(state[2]) > theta_threshold:
+            # Use PD controller for large angles
+            kp = 30.0
+            kd = 5.0
+            force = kp * (0 - state[2]) - kd * state[3]
+            alpha = min(abs(state[2]) / theta_threshold, 1.0)  # 0 to 1
+            force = alpha * pd_force + (1 - alpha) * ppo_force
 
-    env.step(force)
-    state = env.state
+        else:
+            # Use PPO
+            state_tensor = torch.tensor(state, dtype=torch.float32)
+            mu, std, _ = policy(state_tensor)
+            ppo_force = mu.detach().numpy().item()
+            max_force = 10.0
+            force = np.clip(ppo_force * max_force, -max_force, max_force)
+
+
+    
+    max_x = 3.0
+    x = state[0]
+    if x <= -max_x:
+            force += 50.0 * (-max_x - x)
+    elif x >= max_x:
+        force += 50.0 * (max_x - x)
+
+
+
+
+
+    next_state, reward, done, info = env.step(force)
+    state = next_state
+
     draw(state)
     clock.tick(50)
 

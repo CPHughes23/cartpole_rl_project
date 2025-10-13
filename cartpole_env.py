@@ -6,7 +6,7 @@ class CartPole:
         self.pole_mass = 0.1
         self.pole_length = 0.5
         self.gravity = 9.8
-        self.dt = 0.01 # timestep
+        self.dt = 0.02 # timestep
         self.damping_cart = 0.1
         self.damping_pole = 0.5
         
@@ -16,7 +16,7 @@ class CartPole:
         self.max_steps = 500
 
     def reset(self):
-        self.state = np.random.uniform(low=-0.05, high=0.05, size=(4,)) # resets to a semi-random position so that training has variance
+        self.state = np.random.uniform(low=-0.45, high=0.45, size=(4,)) # resets to a semi-random position so that training has variance
         self.steps = 0
         return self.state
     
@@ -34,13 +34,27 @@ class CartPole:
         self.state = self.state + self.dt/6 * (k1 + 2*k2 + 2*k3 + k4)
         self.steps += 1
 
+
+
         terminated = bool(
             x < -3 or x > 3 or # cart outside of windows bounds
             theta < -12 * np.pi/180 or theta > 12 * np.pi/180 or # pole has fallen over
             self.steps >= self.max_steps # ran out of steps
         )
+        max_x = 3.0
+        max_v = 5.0
+        self.state[0] = np.clip(self.state[0], -max_x, max_x)  # x
+        self.state[1] = np.clip(self.state[1], -max_v, max_v)  # x_dot
 
-        reward = 1.0 if not terminated else 0.0
+
+        desired_x = 0.0
+        if not terminated:
+            reward = 1.0 - 0.1 * abs(theta) - 0.01 * abs(theta_dot) - 0.05 * abs(x - desired_x)
+            reward -= 0.1 * max(0, abs(x) - 2.5)
+            if x < -max_x or x > max_x:
+                reward = -10.0
+        else:
+            reward = 0
         info = {"x":x, "theta":theta}
         return self.state, reward, terminated, info
         
