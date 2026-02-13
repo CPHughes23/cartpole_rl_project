@@ -36,7 +36,7 @@ except:
     except:
         print("⚠ No trained model found - using random policy")
 
-scale = 600 / (3.0 * 2)  # Convert pixels to meters
+scale = 100  # pixels per meter
 font = pygame.font.Font(None, 24)
 
 dragging = False
@@ -54,14 +54,14 @@ def draw(state, force, reward, mode="AI"):
                     (window_width, window_height // 2), 2)
 
     # Draw boundaries
-    left_bound = window_width // 2 - int(3.0 * 100)
-    right_bound = window_width // 2 + int(3.0 * 100)
+    left_bound = window_width // 2 - int(3.0 * scale)
+    right_bound = window_width // 2 + int(3.0 * scale)
     pygame.draw.line(screen, (255, 0, 0), (left_bound, 0), (left_bound, window_height), 2)
     pygame.draw.line(screen, (255, 0, 0), (right_bound, 0), (right_bound, window_height), 2)
 
     # Draw cart
     cart_y = window_height // 2
-    cart_x = int(window_width // 2 + x * 100)
+    cart_x = int(window_width // 2 + x * scale)
     cart_color = (100, 100, 255) if mode == "Manual" else (0, 0, 0)
     pygame.draw.rect(screen, cart_color, (cart_x - 25, cart_y - 15, 50, 30), 3)
 
@@ -73,9 +73,9 @@ def draw(state, force, reward, mode="AI"):
     pygame.draw.circle(screen, (50, 50, 50), (pole_x, pole_y), 8)
 
     # Draw force indicator
-    force_scale = 5
+    force_scale = 3
     force_x = int(cart_x + force * force_scale)
-    if abs(force) > 0.1:
+    if abs(force) > 0.5:
         pygame.draw.line(screen, (0, 0, 255), (cart_x, cart_y), 
                         (force_x, cart_y), 3)
         # Arrow head
@@ -150,33 +150,42 @@ while running:
                 print("Environment reset")
 
     if dragging:
-        # Manual control with PD controller
+        # Apply STRONG force to follow mouse - physics still runs!
         mouse_x, _ = pygame.mouse.get_pos()
-        desired_x = (mouse_x - window_width / 2) / 100
+        desired_x = (mouse_x - window_width / 2) / scale
+        desired_x = np.clip(desired_x, -2.8, 2.8)
         
-        kp = (np.pi * 2 * 3.0) ** 2
-        kd = 2 * 1 * (np.pi * 3.0)
-        force = kp * (desired_x - state[0]) - kd * state[1]
+        # Very strong PD controller for responsive manual control
+        error = desired_x - state[0]
+        kp = 100.0  # High gain for responsiveness
+        kd = 20.0   # Damping
+        force = kp * error - kd * state[1]
+        
+        # Allow large forces for manual control
+        force = np.clip(force, -100.0, 100.0)
+        
     else:
         # AI control
         action, _, _ = agent.select_action(state, deterministic=True)
-        force = action[0] * 10.0  # Scale to appropriate force range
+        force = action[0] * 10.0
+        
+        # Boundary enforcement (only when AI is active)
+        max_x = 3.0
+        x = state[0]
+        if x <= -max_x:
+            force += 30.0 * (-max_x - x)
+        elif x >= max_x:
+            force += 30.0 * (max_x - x)
 
-    # Boundary enforcement
-    max_x = 3.0
-    x = state[0]
-    if x <= -max_x:
-        force += 50.0 * (-max_x - x)
-    elif x >= max_x:
-        force += 50.0 * (max_x - x)
-
-    # Step environment
+    # Always step environment (so pole physics work)
     next_state, reward, done, info = env.step(force)
     state = next_state
-    total_reward += reward
-    steps += 1
+    
+    if not dragging:  # Only count reward/steps when AI is in control
+        total_reward += reward
+        steps += 1
 
-    if done:
+    if done and not dragging:  # Only reset on AI failures
         print(f"Episode finished - Steps: {steps}, Total Reward: {total_reward:.2f}")
         state = env.reset()
         total_reward = 0
