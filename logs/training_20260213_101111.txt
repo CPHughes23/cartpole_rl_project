@@ -1,0 +1,3 @@
+Episode 10/1000 | Mean Reward: 60.30 | Policy Loss: 0.0219 | Value Loss: 31.7564 | Entropy: 1.5316
+Episode 20/1000 | Mean Reward: 77.25 | Policy Loss: 0.0105 | Value Loss: 46.6472 | Entropy: 1.5614
+Episode 30/1000 | Mean Reward: 98.18 | Policy Loss: 0.0659 | Value Loss: 53.6216 | Entropy: 1.6647
