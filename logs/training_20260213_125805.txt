@@ -1,0 +1,130 @@
+Episode 10/500 | Mean Reward: 11.66 | Policy Loss: -0.0135 | Value Loss: 17.3331 | Entropy: 1.4868
+Episode 20/500 | Mean Reward: 8.89 | Policy Loss: 0.0032 | Value Loss: 109.2049 | Entropy: 1.5593
+Episode 30/500 | Mean Reward: 89.68 | Policy Loss: 0.0301 | Value Loss: 78.2451 | Entropy: 1.6644
+Episode 40/500 | Mean Reward: 189.27 | Policy Loss: 0.0081 | Value Loss: 88.4123 | Entropy: 1.7604
+Episode 50/500 | Mean Reward: 139.30 | Policy Loss: 0.0013 | Value Loss: 91.0495 | Entropy: 1.8682
+
+============================================================
+Evaluation at Episode 50
+Mean Reward: 254.06 ± 221.35
+Mean Length: 300.4
+Max Reward: 478.49
+Recovery Success Rate: 100.0%
+============================================================
+Episode 60/500 | Mean Reward: 179.43 | Policy Loss: 0.0006 | Value Loss: 135.3184 | Entropy: 1.9493
+Episode 70/500 | Mean Reward: 233.97 | Policy Loss: 0.0069 | Value Loss: 114.9188 | Entropy: 2.0161
+Episode 80/500 | Mean Reward: 205.48 | Policy Loss: 0.0219 | Value Loss: 142.0961 | Entropy: 2.0877
+Episode 90/500 | Mean Reward: 193.87 | Policy Loss: 0.0049 | Value Loss: 142.4840 | Entropy: 2.1452
+Episode 100/500 | Mean Reward: 208.28 | Policy Loss: 0.0024 | Value Loss: 146.8489 | Entropy: 2.1945
+
+============================================================
+Evaluation at Episode 100
+Mean Reward: 181.40 ± 233.68
+Mean Length: 201.0
+Max Reward: 476.08
+Recovery Success Rate: 20.0%
+============================================================
+Episode 110/500 | Mean Reward: 190.96 | Policy Loss: 0.0000 | Value Loss: 133.5039 | Entropy: 2.2603
+Episode 120/500 | Mean Reward: 259.91 | Policy Loss: 0.0024 | Value Loss: 115.4059 | Entropy: 2.3434
+Episode 130/500 | Mean Reward: 234.72 | Policy Loss: 0.0007 | Value Loss: 222.1499 | Entropy: 2.3981
+Episode 140/500 | Mean Reward: 209.66 | Policy Loss: 0.0002 | Value Loss: 149.8187 | Entropy: 2.4741
+Episode 150/500 | Mean Reward: 232.86 | Policy Loss: 0.0018 | Value Loss: 150.1115 | Entropy: 2.5314
+
+============================================================
+Evaluation at Episode 150
+Mean Reward: 204.88 ± 263.73
+Mean Length: 200.6
+Max Reward: 568.06
+Recovery Success Rate: 60.0%
+============================================================
+Episode 160/500 | Mean Reward: 225.91 | Policy Loss: 0.0028 | Value Loss: 168.6795 | Entropy: 2.6066
+Episode 170/500 | Mean Reward: 207.45 | Policy Loss: 0.0027 | Value Loss: 106.5057 | Entropy: 2.6747
+Episode 180/500 | Mean Reward: 245.99 | Policy Loss: 0.0007 | Value Loss: 172.1875 | Entropy: 2.7490
+Episode 190/500 | Mean Reward: 213.92 | Policy Loss: 0.0055 | Value Loss: 127.7826 | Entropy: 2.7984
+Episode 200/500 | Mean Reward: 216.85 | Policy Loss: -0.0039 | Value Loss: 213.0729 | Entropy: 2.8460
+
+============================================================
+Evaluation at Episode 200
+Mean Reward: 286.16 ± 249.18
+Mean Length: 300.4
+Max Reward: 578.22
+Recovery Success Rate: 60.0%
+============================================================
+Episode 210/500 | Mean Reward: 205.56 | Policy Loss: -0.0072 | Value Loss: 270.4381 | Entropy: 2.9221
+Episode 220/500 | Mean Reward: 216.75 | Policy Loss: -0.0042 | Value Loss: 148.4388 | Entropy: 2.9673
+Episode 230/500 | Mean Reward: 241.19 | Policy Loss: -0.0067 | Value Loss: 150.2572 | Entropy: 3.0210
+Episode 240/500 | Mean Reward: 197.86 | Policy Loss: 0.0032 | Value Loss: 153.3578 | Entropy: 3.0972
+Episode 250/500 | Mean Reward: 258.76 | Policy Loss: -0.0019 | Value Loss: 142.0326 | Entropy: 3.1564
+
+============================================================
+Evaluation at Episode 250
+Mean Reward: 347.57 ± 378.48
+Mean Length: 400.2
+Max Reward: 600.86
+Recovery Success Rate: 80.0%
+============================================================
+Episode 260/500 | Mean Reward: 250.45 | Policy Loss: -0.0020 | Value Loss: 197.4108 | Entropy: 3.2062
+Episode 270/500 | Mean Reward: 214.85 | Policy Loss: 0.0043 | Value Loss: 146.5582 | Entropy: 3.2362
+Episode 280/500 | Mean Reward: 150.97 | Policy Loss: -0.0080 | Value Loss: 248.9100 | Entropy: 3.2797
+Episode 290/500 | Mean Reward: 188.02 | Policy Loss: -0.0005 | Value Loss: 183.2630 | Entropy: 3.3095
+Episode 300/500 | Mean Reward: 209.18 | Policy Loss: 0.0067 | Value Loss: 155.0266 | Entropy: 3.3266
+
+============================================================
+Evaluation at Episode 300
+Mean Reward: 336.87 ± 283.55
+Mean Length: 300.4
+Max Reward: 586.72
+Recovery Success Rate: 60.0%
+============================================================
+Episode 310/500 | Mean Reward: 213.79 | Policy Loss: 0.0018 | Value Loss: 132.3695 | Entropy: 3.3671
+Episode 320/500 | Mean Reward: 166.27 | Policy Loss: 0.0047 | Value Loss: 111.2815 | Entropy: 3.4252
+Episode 330/500 | Mean Reward: 190.42 | Policy Loss: 0.0018 | Value Loss: 159.8441 | Entropy: 3.4645
+Episode 340/500 | Mean Reward: 193.19 | Policy Loss: 0.0112 | Value Loss: 124.5563 | Entropy: 3.4595
+Episode 350/500 | Mean Reward: 156.87 | Policy Loss: -0.0024 | Value Loss: 202.0128 | Entropy: 3.5150
+
+============================================================
+Evaluation at Episode 350
+Mean Reward: 445.27 ± 239.85
+Mean Length: 400.2
+Max Reward: 599.59
+Recovery Success Rate: 100.0%
+============================================================
+Episode 360/500 | Mean Reward: 187.53 | Policy Loss: 0.0005 | Value Loss: 172.1742 | Entropy: 3.5666
+Episode 370/500 | Mean Reward: 189.34 | Policy Loss: 0.0108 | Value Loss: 163.1492 | Entropy: 3.5788
+Episode 380/500 | Mean Reward: 162.75 | Policy Loss: 0.0024 | Value Loss: 409.3357 | Entropy: 3.6177
+Episode 390/500 | Mean Reward: 218.66 | Policy Loss: 0.0068 | Value Loss: 150.9500 | Entropy: 3.6518
+Episode 400/500 | Mean Reward: 189.49 | Policy Loss: -0.0050 | Value Loss: 258.3516 | Entropy: 3.7155
+
+============================================================
+Evaluation at Episode 400
+Mean Reward: 284.31 ± 294.91
+Mean Length: 250.5
+Max Reward: 609.98
+Recovery Success Rate: 80.0%
+============================================================
+Episode 410/500 | Mean Reward: 208.87 | Policy Loss: -0.0044 | Value Loss: 185.3088 | Entropy: 3.7462
+Episode 420/500 | Mean Reward: 185.15 | Policy Loss: 0.0028 | Value Loss: 170.0450 | Entropy: 3.7546
+Episode 430/500 | Mean Reward: 190.23 | Policy Loss: 0.0007 | Value Loss: 208.5921 | Entropy: 3.7374
+Episode 440/500 | Mean Reward: 145.68 | Policy Loss: -0.0072 | Value Loss: 231.3093 | Entropy: 3.7860
+Episode 450/500 | Mean Reward: 108.45 | Policy Loss: 0.0080 | Value Loss: 209.7501 | Entropy: 3.8251
+
+============================================================
+Evaluation at Episode 450
+Mean Reward: 246.72 ± 287.72
+Mean Length: 313.7
+Max Reward: 549.77
+Recovery Success Rate: 100.0%
+============================================================
+Episode 460/500 | Mean Reward: 122.66 | Policy Loss: 0.0088 | Value Loss: 136.8917 | Entropy: 3.8600
+Episode 470/500 | Mean Reward: 100.02 | Policy Loss: 0.0068 | Value Loss: 283.9060 | Entropy: 3.8825
+Episode 480/500 | Mean Reward: 106.51 | Policy Loss: -0.0038 | Value Loss: 186.9305 | Entropy: 3.8902
+Episode 490/500 | Mean Reward: 169.96 | Policy Loss: -0.0002 | Value Loss: 131.8957 | Entropy: 3.9111
+Episode 500/500 | Mean Reward: 155.16 | Policy Loss: -0.0034 | Value Loss: 244.6220 | Entropy: 3.9214
+
+============================================================
+Evaluation at Episode 500
+Mean Reward: 314.46 ± 220.28
+Mean Length: 350.3
+Max Reward: 524.93
+Recovery Success Rate: 80.0%
+============================================================

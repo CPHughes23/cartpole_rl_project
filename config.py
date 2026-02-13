@@ -5,27 +5,30 @@ Adjust these hyperparameters for optimal performance
 
 class PPOConfig:
     # Environment settings
-    max_episode_steps = 500
+    max_episode_steps = 1000
     
     # Network architecture
-    hidden_sizes = [128, 128]  # Two hidden layers with 128 units each
+    hidden_sizes = [256, 256]  # Two hidden layers with 128 units each
     activation = 'tanh'  # 'tanh' or 'relu'
     
     # PPO hyperparameters
-    learning_rate = 3e-4
+    learning_rate = 1e-4
     gamma = 0.99  # Discount factor
     gae_lambda = 0.95  # GAE parameter
-    clip_ratio = 0.2  # PPO clip parameter
+    clip_ratio = 0.15  # PPO clip parameter
     value_loss_coef = 0.5  # Value loss coefficient
-    entropy_coef = 0.01  # Entropy bonus coefficient
+    entropy_coef = 0.04  # Entropy bonus coefficient
     max_grad_norm = 0.5  # Gradient clipping
     
     # Training settings
-    num_episodes = 100
-    steps_per_episode = 2048  # Collect this many steps before update
+    num_episodes = 1500
+    steps_per_episode = 3000  # Collect this many steps before update
     ppo_epochs = 10  # Number of epochs for PPO update
-    minibatch_size = 64  # Minibatch size for updates
-    
+    minibatch_size = 128  # Minibatch size for updates
+
+    # Recovery training
+    recovery_training = True  # Enable challenging initial states
+
     # Logging and evaluation
     log_interval = 10  # Log every N episodes
     eval_interval = 50  # Evaluate every N episodes
