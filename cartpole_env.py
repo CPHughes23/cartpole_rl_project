@@ -80,7 +80,12 @@ class CartPole:
             upright_reward = np.cos(theta)  # 1.0 when upright, -1.0 when upside down
             
             # Position reward - quadratic to strongly prefer center
-            position_penalty = 0.5 * (abs(x) / 3.0) ** 2
+            position_penalty = 1.0 * (abs(x) / 3.0) ** 2
+
+            if abs(x) < 0.3:
+                center_bonus = 0.5 * (1.0 - abs(x) / 3)
+            else:
+                center_bonus = 0
             
             # Velocity penalties - want slow, controlled movement
             angular_vel_penalty = 0.02 * abs(theta_dot)
@@ -99,7 +104,8 @@ class CartPole:
                      - position_penalty      # 0 to -0.5
                      - angular_vel_penalty   # velocity penalties
                      - linear_vel_penalty 
-                     - wall_penalty)         # 0 to -3
+                     - wall_penalty         # 0 to -3
+                     + center_bonus)
             
         else:
             # Moderate termination penalty (not too harsh since we want exploration)

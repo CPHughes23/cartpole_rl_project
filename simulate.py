@@ -268,30 +268,29 @@ while running:
         force = kp * error - kd * state[1]
         force = np.clip(force, -100.0, 100.0)
         
+    # In the AI control section, after getting the AI's force but before boundary enforcement:
+
     else:
         # AI control
         action, _, _ = agent.select_action(state, deterministic=True)
-        
-        # INCREASED force scaling for recovery capability
-        raw_force = action[0] * 6.0  # Increased from 3.0 to 6.0
+        raw_force = action[0] * 6.0
         
         if use_stability:
             angle = abs(state[2])
             
-            # Determine control mode
             if angle < 5 * np.pi/180:
                 control_mode = "STABLE"
             else:
                 control_mode = "RECOVERY"
             
-            # ADAPTIVE SMOOTHING (minimal during recovery)
             force = action_smoother.smooth(raw_force, state)
-            
-            # SELECTIVE DAMPING (only when very upright)
             force = stability_controller.apply_selective_damping(force, state)
-            
-            # SELECTIVE FORCE REDUCTION (only when perfectly balanced)
             force = stability_controller.apply_selective_reduction(force, state)
+            
+            # ADD THIS: Center-seeking when stable
+            if angle < 5 * np.pi/180:  # Only when balanced
+                centering_force = -3.0 * state[0]  # Pull toward center
+                force += centering_force
         else:
             force = raw_force
             control_mode = "RAW"
