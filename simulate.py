@@ -1,7 +1,8 @@
 """
 Interactive CartPole simulation with trained PPO model
 - Click and drag to manually control cart position
-- Release to let the AI take over
+- Release to let the AI take over and keep trying indefinitely
+- Only resets when you press R
 """
 
 import pygame
@@ -44,7 +45,7 @@ running = True
 total_reward = 0
 steps = 0
 
-def draw(state, force, reward, mode="AI"):
+def draw(state, force, mode="AI"):
     """Draw the CartPole state"""
     screen.fill((255, 255, 255))
     x, x_dot, theta, theta_dot = state
@@ -90,9 +91,9 @@ def draw(state, force, reward, mode="AI"):
     info_texts = [
         f"Mode: {mode}",
         f"Steps: {steps}",
-        f"Reward: {total_reward:.2f}",
         f"Angle: {theta * 180 / np.pi:.1f}°",
         f"Position: {x:.2f}m",
+        f"Velocity: {x_dot:.2f}m/s",
         f"Force: {force:.2f}N"
     ]
     
@@ -105,8 +106,8 @@ def draw(state, force, reward, mode="AI"):
     # Instructions
     instructions = [
         "Click & Drag: Manual control",
-        "Release: AI control",
-        "R: Reset",
+        "Release: AI takes over",
+        "R: Reset to start",
         "ESC: Quit"
     ]
     y_offset = window_height - 110
@@ -124,8 +125,8 @@ print("Interactive CartPole Simulation")
 print("=" * 60)
 print("Controls:")
 print("  - Click and drag to manually control the cart")
-print("  - Release to let the AI take over")
-print("  - Press R to reset")
+print("  - Release to let the AI take over and keep trying")
+print("  - Press R to reset (only way to restart)")
 print("  - Press ESC to quit")
 print("=" * 60 + "\n")
 
@@ -140,36 +141,34 @@ while running:
             dragging = True
         elif event.type == pygame.MOUSEBUTTONUP:
             dragging = False
+            steps = 0  # Reset step counter when AI takes over
+            print(f"Released at: x={state[0]:.2f}m, theta={state[2]*180/np.pi:.1f}° - AI taking over...")
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
             elif event.key == pygame.K_r:
                 state = env.reset()
-                total_reward = 0
                 steps = 0
                 print("Environment reset")
 
     if dragging:
-        # Apply STRONG force to follow mouse - physics still runs!
+        # Manual control - strong force to follow mouse
         mouse_x, _ = pygame.mouse.get_pos()
         desired_x = (mouse_x - window_width / 2) / scale
         desired_x = np.clip(desired_x, -2.8, 2.8)
         
-        # Very strong PD controller for responsive manual control
         error = desired_x - state[0]
-        kp = 100.0  # High gain for responsiveness
-        kd = 20.0   # Damping
+        kp = 100.0
+        kd = 20.0
         force = kp * error - kd * state[1]
-        
-        # Allow large forces for manual control
         force = np.clip(force, -100.0, 100.0)
         
     else:
-        # AI control
+        # AI control - let it keep trying forever
         action, _, _ = agent.select_action(state, deterministic=True)
         force = action[0] * 10.0
         
-        # Boundary enforcement (only when AI is active)
+        # Boundary enforcement
         max_x = 3.0
         x = state[0]
         if x <= -max_x:
@@ -177,21 +176,16 @@ while running:
         elif x >= max_x:
             force += 30.0 * (max_x - x)
 
-    # Always step environment (so pole physics work)
+    # Step environment - IGNORE done flag, never auto-reset
     next_state, reward, done, info = env.step(force)
     state = next_state
     
-    if not dragging:  # Only count reward/steps when AI is in control
-        total_reward += reward
+    if not dragging:
         steps += 1
 
-    if done and not dragging:  # Only reset on AI failures
-        print(f"Episode finished - Steps: {steps}, Total Reward: {total_reward:.2f}")
-        state = env.reset()
-        total_reward = 0
-        steps = 0
-
-    draw(state, force, reward, mode)
+    # No auto-reset! AI keeps trying no matter what
+    
+    draw(state, force, mode)
     clock.tick(50)
 
 pygame.quit()
